@@ -8,7 +8,6 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import { toast, ToastContainer } from 'react-toastify';
 import { FaRightLong } from "react-icons/fa6";
 
-
 function App() {
   const [isConvertTo20022, setIsConvertTo20022] = useState(true)
 
@@ -77,9 +76,7 @@ function App() {
   const convertFile20022 = async () => {
     try {
       const res8583 = await convert8583to20022(jsonText).unwrap();
-
       setconvertdata(res8583);
-
       toast.success("Convert Thành Công");
     } catch (error) {
 
@@ -114,9 +111,9 @@ function App() {
 
   return (
 
-    <div className='bg-gray-200 flex justify-center h-[100vh] w-[100vw] flex-col justify-center items-center'>
+    <div className='bg-gray-200 flex justify-center h-[100vh] w-[100vw] flex-col items-center'>
       <ToastContainer />
-      <div className='bg-white shadow-2xl p-2 h-[70%] rounded-2xl   w-[70%] gap-1 item'>
+      <div className='bg-white shadow-2xl p-2 h-[95%] rounded-2xl  w-[95%] gap-1 item'>
         <div className='w-full h-[10%] flex justify-between'>
           <p className={`flex items-center transition-[5000] justify-center w-[70%] font-bold text-[20px] duration-3000`}>
 
@@ -146,7 +143,7 @@ function App() {
             <div className='h-full flex flex-col p-2 gap-1'>
 
               <textarea value={jsonText} type="text" accept=".json" onChange={handleChangeJsontext}
-                className=' flex-1 w-full   rounded-2xl  focus:outline-0    font-normal text-[10px] p-2' />
+                className=' flex-1 w-full  text-black rounded-2xl  focus:outline-0    font-normal text-[20px] p-2' />
 
               {!jsonText ? <div className={` h-[10%]  py-2   relative bg-[#bbbaba9b] rounded-2xl text-center text-gray-800`}>
                 tha file
