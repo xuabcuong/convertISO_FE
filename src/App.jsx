@@ -18,7 +18,8 @@ const supportMsg = [
 function App() {
   const [isConvertTo20022, setIsConvertTo20022] = useState(true)
   const [mgsName, setgsName] = useState("")
-  const [issupportMsg, setIssupportMsg] = useState(false)
+  console.log("🚀 ~ App ~ mgsName:", mgsName)
+  const [issupportMsg, setIssupportMsg] = useState(true)
   const [mgsNameSelect, setgsNameSelect] = useState("")
 
 
@@ -104,10 +105,10 @@ function App() {
 
   }, [jsonText])
   const convert = () => {
-    const data = JSON.parse(jsonText)
 
-    const mgsName = data.listField?.["62"]
 
+
+    console.log("🚀 ~ convert ~ issupportMsg:", issupportMsg)
     if (mgsName !== "" && !issupportMsg) {
       toast.error("tool chưa hỗ trợ bản tin " + mgsName);
       return;
@@ -144,16 +145,15 @@ function App() {
               <TfiReload />
             </button>
 
-            {
-              !issupportMsg &&
-              <Select
-                mgsNameSelect={mgsNameSelect}
-                setgsNameSelect={setgsNameSelect}
-                jsonText={jsonText}
-                setJsonText={setJsonText}
-                isConvertTo20022={isConvertTo20022}
-              />
-            }
+
+            <Select
+              mgsNameSelect={mgsNameSelect}
+              setgsNameSelect={setgsNameSelect}
+              jsonText={jsonText}
+              setJsonText={setJsonText}
+              isConvertTo20022={isConvertTo20022}
+            />
+
           </div>
           <p className='flex items-center justify-center w-[70%] font-bold text-[20px] text-black'>{!isConvertTo20022 ? "8583" : "20022"}
           </p>
