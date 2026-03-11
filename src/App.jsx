@@ -19,9 +19,9 @@ const supportMsg = [
 function App() {
   const [isConvertTo20022, setIsConvertTo20022] = useState(true)
   const [mgsName, setgsName] = useState("")
-  console.log("🚀 ~ App ~ mgsName:", mgsName)
   const [issupportMsg, setIssupportMsg] = useState(true)
   const [mgsNameSelect, setgsNameSelect] = useState("")
+  console.log("🚀 ~ App ~ mgsNameSelect:", mgsNameSelect)
 
 
   const [convertdata, setconvertdata] = useState(null)
@@ -109,7 +109,6 @@ function App() {
 
 
 
-    console.log("🚀 ~ convert ~ issupportMsg:", issupportMsg)
     if (mgsName !== "" && !issupportMsg) {
       toast.error("tool chưa hỗ trợ bản tin " + mgsName);
       return;
@@ -148,7 +147,7 @@ function App() {
 
 
             <Select
-              mgsNameSelect={mgsNameSelect}
+              mgsNameSelect={mgsName}
               setgsNameSelect={setgsNameSelect}
               jsonText={jsonText}
               setJsonText={setJsonText}
