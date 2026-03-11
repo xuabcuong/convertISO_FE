@@ -162,7 +162,7 @@ function App() {
           <div className='w-[50%] border h-full rounded-2xl border-gray-400 relative overflow-auto '>
             <button
               onClick={() => {
-                setFile(null)
+
                 setJsonText("")
               }}
               className='bg-red-500 text-white rounded-[50%] absolute top-5 right-5 text-xl p-1 '>
