@@ -21,7 +21,6 @@ function App() {
   const [mgsName, setgsName] = useState("")
   const [issupportMsg, setIssupportMsg] = useState(true)
   const [mgsNameSelect, setgsNameSelect] = useState("")
-  console.log("🚀 ~ App ~ mgsNameSelect:", mgsNameSelect)
 
 
   const [convertdata, setconvertdata] = useState(null)

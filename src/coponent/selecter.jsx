@@ -14,7 +14,6 @@ export default function Select({
     setJsonText,
     isConvertTo20022
 }) {
-    console.log("🚀 ~ Select ~ mgsNameSelect:", mgsNameSelect)
 
 
     const handleChange = (e) => {
