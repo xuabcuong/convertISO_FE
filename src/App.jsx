@@ -12,6 +12,7 @@ import Select from './coponent/selecter';
 const supportMsg = [
   "camt.003.001.08",
   "pacs.008.001.13",
+  "camt.004.001.10",
   "pacs.002.001.15"
 ];
 
