@@ -8,6 +8,13 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import { toast, ToastContainer } from 'react-toastify';
 import { FaRightLong } from "react-icons/fa6";
 
+const supportMsg = [
+  "camt.003.001.08",
+  "camt.004.001.10",
+  "pacs.008.001.13",
+  "pacs.002.001.15"
+];
+
 function App() {
   const [isConvertTo20022, setIsConvertTo20022] = useState(true)
 
@@ -57,6 +64,9 @@ function App() {
   }
 
   const convertFile8583 = async () => {
+
+
+
     try {
       const res8385 = await convert20022to8583(jsonText).unwrap();
       setconvertdata(res8385);
@@ -95,6 +105,17 @@ function App() {
   }
 
   const convert = () => {
+    const data = JSON.parse(jsonText)
+
+    const mgsName = data.listField.F62
+
+    console.log("🚀 ~ convert ~ mgsName:", mgsName)
+
+    if (!supportMsg.includes(mgsName)) {
+      toast.error("tool chưa hỗ trợ bản tin " + mgsName);
+      return;
+    }
+
     if (!isValidJSON(jsonText)) {
       toast.error("Json không đúng định dạng!!")
     } else {
