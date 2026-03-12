@@ -15,18 +15,38 @@ const supportMsg = [
   "camt.004.001.10",
   "pacs.002.001.15"
 ];
+function PrettyJSON(json) {
+  try {
+    if (typeof json === "string") {
+      json = json.replace(/\\"/g, '"');
+      json = JSON.parse(json);
+    }
+    return JSON.stringify(json, null, 2);
+  } catch (err) {
+    console.error("JSON lỗi:", err);
+    return json;
+  }
+}
+const MinifyJSON = (json) => {
+  try {
+    return JSON.stringify(
+      JSON.parse(typeof json === "string" ? json.replace(/\\"/g, '"') : json)
+    );
+  } catch {
+    return json;
+  }
+};
 
 function App() {
   const [isConvertTo20022, setIsConvertTo20022] = useState(true)
   const [mgsName, setgsName] = useState("")
   const [issupportMsg, setIssupportMsg] = useState(true)
+  const [ispretty, setIspretty] = useState(true)
+  console.log("🚀 ~ App ~ ispretty:", ispretty)
+
   const [mgsNameSelect, setgsNameSelect] = useState("")
-
-
   const [convertdata, setconvertdata] = useState(null)
-
   const [jsonText, setJsonText] = useState("");
-
   const [convert20022to8583] = useConvert8583to20022Mutation();
   const [convert8583to20022] = useConvert20022to8583Mutation();
 
@@ -42,7 +62,7 @@ function App() {
   const convertFile8583 = async () => {
 
     try {
-      const res8385 = await convert20022to8583(jsonText).unwrap();
+      const res8385 = await convert20022to8583(PrettyJSON(jsonText)).unwrap();
       setconvertdata(res8385);
       toast.success("Convert Thành Công");
     } catch (error) {
@@ -59,7 +79,7 @@ function App() {
 
   const convertFile20022 = async () => {
     try {
-      const res8583 = await convert8583to20022(jsonText).unwrap();
+      const res8583 = await convert8583to20022(PrettyJSON(jsonText)).unwrap();
       setconvertdata(res8583);
       toast.success("Convert Thành Công");
     } catch (error) {
@@ -75,7 +95,7 @@ function App() {
 
   const handleChangeJsontext = (e) => {
 
-    setJsonText(e.target.value)
+    setJsonText(PrettyJSON(e.target.value))
   }
 
 
@@ -121,18 +141,7 @@ function App() {
 
   }
 
-  function PrettyJSON(json) {
-    try {
-      if (typeof json === "string") {
-        json = json.replace(/\\"/g, '"'); 
-        json = JSON.parse(json);         
-      }
-      return JSON.stringify(json, null, 2);
-    } catch (err) {
-      console.error("JSON lỗi:", err);
-      return json;
-    }
-  }
+
 
   return (
 
@@ -179,21 +188,26 @@ function App() {
 
             <div className='h-full flex flex-col p-2 gap-1'>
 
-              <textarea value={PrettyJSON(jsonText)} type="text" accept=".json" onChange={handleChangeJsontext}
+              <textarea value={ispretty ? PrettyJSON(jsonText) : MinifyJSON(jsonText)} type="text" accept=".json" onChange={handleChangeJsontext}
                 className=' flex-1 w-full  text-black rounded-2xl  focus:outline-0    font-normal text-[20px] p-2' />
-
-
             </div>
-
-
+          </div>
+          <div className='w-[10%] pt-4'>
+            <button onClick={() => {
+              setIspretty(true)
+            }} className={`${ispretty ? "bg-blue-500" : "bg-blue-400"} w-full rounded-2xl border active:bg-blue-500 p-2 text-white`}>PrettyJSON</button>
+            <button onClick={() => {
+              setIspretty(false)
+            }} className={`${!ispretty ? "bg-blue-500" : "bg-blue-400"} w-full rounded-2xl border active:bg-blue-500 p-2 text-white`}> MinifyJSON</button>
           </div>
           <div className='w-[50%] border h-full rounded-2xl border-gray-400 relative overflow-auto'>
             {convertdata ?
-              <p className=" font-normal text-[10px] text-left whitespace-p-wrap p-2 text-black">
-                <JSONPretty
-                  data={convertdata}
-                  theme="monikai"
-                />
+              <p className="font-normal text-[10px] text-left whitespace-pre-wrap p-2 text-black">
+                {ispretty ? (
+                  <JSONPretty data={convertdata} theme="monikai" />
+                ) : (
+                  JSON.stringify(convertdata)
+                )}
               </p>
               :
               ""
