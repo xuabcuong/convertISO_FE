@@ -42,7 +42,6 @@ function App() {
   const [mgsName, setgsName] = useState("")
   const [issupportMsg, setIssupportMsg] = useState(true)
   const [ispretty, setIspretty] = useState(true)
-  console.log("🚀 ~ App ~ ispretty:", ispretty)
 
   const [mgsNameSelect, setgsNameSelect] = useState("")
   const [convertdata, setconvertdata] = useState(null)
@@ -120,9 +119,11 @@ function App() {
     }
 
   }, [jsonText])
+
   const convert = () => {
 
-    // if (mgsName !== "") {
+    // console.log("🚀 ~ convert ~ mgsName:", mgsName)
+    // if (mgsName !== "" && !supportMsg.includes(mgsName)) {
     //   toast.error("tool chưa hỗ trợ bản tin " + mgsName);
     //   return;
     // }
@@ -130,18 +131,14 @@ function App() {
     if (!isValidJSON(jsonText)) {
       toast.error("Json không đúng định dạng!!")
     } else {
-
       if (isConvertTo20022) {
         convertFile8583()
-
       } else {
         convertFile20022()
       }
     }
 
   }
-
-
 
   return (
 
@@ -159,8 +156,6 @@ function App() {
               onClick={() => { setIsConvertTo20022(!isConvertTo20022) }}>
               <TfiReload />
             </button>
-
-
             <Select
               mgsNameSelect={mgsName}
               setgsNameSelect={setgsName}
@@ -168,26 +163,20 @@ function App() {
               setJsonText={setJsonText}
               isConvertTo20022={isConvertTo20022}
             />
-
           </div>
           <p className='flex items-center justify-center w-[70%] font-bold text-[20px] text-black'>{!isConvertTo20022 ? "8583" : "20022"}
           </p>
         </div>
         <div className="flex h-[80%] gap-2">
-
           <div className='w-[50%] border h-full rounded-2xl border-gray-400 relative overflow-auto '>
             <button
               onClick={() => {
-
                 setJsonText("")
               }}
               className='bg-red-500 text-white rounded-[50%] absolute top-5 right-5 text-xl p-1 '>
               <MdOutlineDeleteOutline />
-
             </button>
-
             <div className='h-full flex flex-col p-2 gap-1'>
-
               <textarea value={ispretty ? PrettyJSON(jsonText) : MinifyJSON(jsonText)} type="text" accept=".json" onChange={handleChangeJsontext}
                 className=' flex-1 w-full  text-black rounded-2xl  focus:outline-0    font-normal text-[20px] p-2' />
             </div>
@@ -202,7 +191,7 @@ function App() {
           </div>
           <div className='w-[50%] border h-full rounded-2xl border-gray-400 relative overflow-auto'>
             {convertdata ?
-              <p className="font-normal text-[10px] text-left whitespace-pre-wrap p-2 text-black">
+              <p className="font-normal text-[20px] text-left whitespace-pre-wrap p-2 text-black">
                 {ispretty ? (
                   <JSONPretty data={convertdata} theme="monikai" />
                 ) : (
