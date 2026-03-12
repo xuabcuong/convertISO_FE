@@ -91,12 +91,8 @@ function App() {
         setgsName(data?.listField?.["62"])
       } else {
         setgsName(data?.AppHdr?.MsgDefIdr)
-
       }
-
-
       if (supportMsg.includes(mgsName)) {
-
         setIssupportMsg(true)
       }
       else { setIssupportMsg(false) }
@@ -106,12 +102,10 @@ function App() {
   }, [jsonText])
   const convert = () => {
 
-
-
-    if (mgsName !== "" && !issupportMsg) {
-      toast.error("tool chưa hỗ trợ bản tin " + mgsName);
-      return;
-    }
+    // if (mgsName !== "") {
+    //   toast.error("tool chưa hỗ trợ bản tin " + mgsName);
+    //   return;
+    // }
 
     if (!isValidJSON(jsonText)) {
       toast.error("Json không đúng định dạng!!")
@@ -127,6 +121,19 @@ function App() {
 
   }
 
+  function PrettyJSON(json) {
+    try {
+      if (typeof json === "string") {
+        json = json.replace(/\\"/g, '"'); 
+        json = JSON.parse(json);         
+      }
+      return JSON.stringify(json, null, 2);
+    } catch (err) {
+      console.error("JSON lỗi:", err);
+      return json;
+    }
+  }
+
   return (
 
     <div className='bg-gray-200 flex justify-center h-[100vh] w-[100vw] flex-col items-center'>
@@ -139,7 +146,7 @@ function App() {
           </p>
           <div className='flex flex-col justify-center items-center gap-2'>
 
-            <button className='text-blue-400 transform active:rotate-180 duration-500'
+            <button className='text-blue-400 transform active:rotate-180 duration-500 active:text-blue-500'
               onClick={() => { setIsConvertTo20022(!isConvertTo20022) }}>
               <TfiReload />
             </button>
@@ -147,7 +154,7 @@ function App() {
 
             <Select
               mgsNameSelect={mgsName}
-              setgsNameSelect={setgsNameSelect}
+              setgsNameSelect={setgsName}
               jsonText={jsonText}
               setJsonText={setJsonText}
               isConvertTo20022={isConvertTo20022}
@@ -172,7 +179,7 @@ function App() {
 
             <div className='h-full flex flex-col p-2 gap-1'>
 
-              <textarea value={jsonText} type="text" accept=".json" onChange={handleChangeJsontext}
+              <textarea value={PrettyJSON(jsonText)} type="text" accept=".json" onChange={handleChangeJsontext}
                 className=' flex-1 w-full  text-black rounded-2xl  focus:outline-0    font-normal text-[20px] p-2' />
 
 
@@ -194,7 +201,7 @@ function App() {
           </div>
         </div>
         <div className='w-full flex justify-center items-center'>
-          <button className='font-bold bg-blue-400 text-white p-4 rounded-[50%]'
+          <button className='font-bold bg-blue-400 text-white p-4 rounded-[50%] active:bg-blue-500'
             onClick={convert}
           >
             <FaRightLong />

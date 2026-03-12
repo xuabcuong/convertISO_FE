@@ -15,7 +15,6 @@ export default function Select({
     isConvertTo20022
 }) {
 
-
     const handleChange = (e) => {
 
         const value = e.target.value
