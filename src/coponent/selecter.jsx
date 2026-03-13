@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 
 const option = [
+    "",
     "camt.003.001.08",
     "pacs.008.001.13",
     "camt.004.001.10",
@@ -18,6 +19,7 @@ export default function Select({
     const handleChange = (e) => {
 
         const value = e.target.value
+        console.log("🚀 ~ handleChange ~ value:", value)
         setgsNameSelect(value)
 
         try {

@@ -8,6 +8,8 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import { toast, ToastContainer } from 'react-toastify';
 import { FaRightLong } from "react-icons/fa6";
 import Select from './coponent/selecter';
+import { FaRegCopy } from "react-icons/fa6";
+
 
 const supportMsg = [
   "camt.003.001.08",
@@ -97,9 +99,6 @@ function App() {
     setJsonText(PrettyJSON(e.target.value))
   }
 
-
-
-
   useEffect(() => {
     if (!jsonText) return
 
@@ -118,15 +117,14 @@ function App() {
     } catch (error) {
     }
 
-  }, [jsonText])
+  }, [jsonText, isConvertTo20022])
 
   const convert = () => {
 
-    // console.log("🚀 ~ convert ~ mgsName:", mgsName)
-    // if (mgsName !== "" && !supportMsg.includes(mgsName)) {
-    //   toast.error("tool chưa hỗ trợ bản tin " + mgsName);
-    //   return;
-    // }
+    if (!mgsName && !supportMsg.includes(mgsName)) {
+      toast.error("tool chưa hỗ trợ bản tin " + mgsName);
+      return;
+    }
 
     if (!isValidJSON(jsonText)) {
       toast.error("Json không đúng định dạng!!")
@@ -141,28 +139,30 @@ function App() {
   }
 
   return (
-
     <div className='bg-gray-200 flex justify-center h-[100vh] w-[100vw] flex-col items-center'>
       <ToastContainer />
       <div className='bg-white shadow-2xl p-2 h-[95%] rounded-2xl  w-[95%] gap-1 item'>
         <div className='w-full h-[10%] flex justify-between'>
           <p className={`flex items-center transition-[5000] justify-center w-[70%] font-bold text-[20px] duration-3000 text-black`}>
-
             {isConvertTo20022 ? "8583" : "20022"}
           </p>
-          <div className='flex flex-col justify-center items-center gap-2'>
+          <div className='flex flex-col justify-center items-center gap-2 w-[140px]'>
 
-            <button className='text-blue-400 transform active:rotate-180 duration-500 active:text-blue-500'
+            <button className='text-blue-400 transform active:rotate-180  duration-500 active:text-blue-500'
               onClick={() => { setIsConvertTo20022(!isConvertTo20022) }}>
               <TfiReload />
             </button>
-            <Select
-              mgsNameSelect={mgsName}
-              setgsNameSelect={setgsName}
-              jsonText={jsonText}
-              setJsonText={setJsonText}
-              isConvertTo20022={isConvertTo20022}
-            />
+            <div className='h-[50px]'>
+
+              {isConvertTo20022 &&
+                <Select
+                  mgsNameSelect={mgsName}
+                  setgsNameSelect={setgsName}
+                  jsonText={jsonText}
+                  setJsonText={setJsonText}
+                  isConvertTo20022={isConvertTo20022}
+                />}
+            </div>
           </div>
           <p className='flex items-center justify-center w-[70%] font-bold text-[20px] text-black'>{!isConvertTo20022 ? "8583" : "20022"}
           </p>
@@ -189,7 +189,14 @@ function App() {
               setIspretty(false)
             }} className={`${!ispretty ? "bg-blue-500" : "bg-blue-400"} w-full rounded-2xl border active:bg-blue-500 p-2 text-white`}> MinifyJSON</button>
           </div>
-          <div className='w-[50%] border h-full rounded-2xl border-gray-400 relative overflow-auto'>
+          <div className='w-[50%] border h-full rounded-2xl border-gray-400 relative overflow-auto '>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(JSON.stringify(convertdata, null, 2));
+              }}
+              className='bg-blue-400 active:bg-blue-500 text-white rounded-[50%] absolute top-5 right-5 text-xl p-2 '>
+              <FaRegCopy />
+            </button>
             {convertdata ?
               <p className="font-normal text-[20px] text-left whitespace-pre-wrap p-2 text-black">
                 {ispretty ? (
